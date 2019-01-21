@@ -12,9 +12,8 @@ Can be found here: https://spring.io/guides
 ## Getting Started
 
 To start using this project you simply have to press the "run" button in your IDE. Spring-boot has tomcat embedded inside so you don't need
-to setup your own environment to run the application.<br />By default the project has the external url set to http://dev.libane.tk/users<br />
-This is a server we have set up that has a MySQL database running. This server also runs this application.
-If you want to connect it to your own database simply edit the database location, 
+to setup your own environment to run the application.<br />
+To connect it to your own database simply edit the database location, 
 username and password in the `application.properties` file.
 
 ## Good to know annotations
