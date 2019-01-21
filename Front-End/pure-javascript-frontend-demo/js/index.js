@@ -1,7 +1,8 @@
 var port = 8080;
 var url = "http://localhost:" + port + "/";
 
-getAllUsers();
+// Is executed when page is successfully loaded
+window.onload = getAllUsers;
 
 /**
  * Does a GET request to the given url and
