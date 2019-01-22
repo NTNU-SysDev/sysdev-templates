@@ -8,6 +8,11 @@ repository under `/Back-End`
 
 To run the project you will need to setup a local apache server. This can easily be done using XAMPP. After installing xampp, open it and run
 the appropriate services. You then need to move your project folder into a folder called `/htdocs`.
+
+**Example of /htdocs location:**
+* [Windows] - C:\xampp\htdocs
+* [Linux] - /opt/lampp/htdocs
+
 after completing these steps you can type this in your browser: `http://localhost/project-name-folder`.
 The website should then show up with the correct table data retrieved from the database through the REST API.
 

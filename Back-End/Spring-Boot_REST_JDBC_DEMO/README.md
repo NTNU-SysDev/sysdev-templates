@@ -1,7 +1,7 @@
 # Spring-boot REST backend
 
 This project contains a backend application built using Spring-boot, which makes it simpler and faster to setup a Spring application 
-that you can "just run". In this application we also use JPA which is an API that helps us manage relational data in applications.
+that you can "just run". In this application we also use JDBC which is an API that helps us manage relational data in applications.
 
 ## Setting up your own Spring-boot project
 
