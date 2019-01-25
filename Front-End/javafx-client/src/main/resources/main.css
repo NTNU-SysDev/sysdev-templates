@@ -1,0 +1,17 @@
+#btnDelete {
+    -fx-background-image: url('img/delete.png');
+}
+
+#btnRefresh {
+    -fx-background-image: url('img/refresh.png');
+}
+
+#btnDelete, #btnRefresh {
+    -fx-background-size: 32px 32px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+Button {
+    -fx-cursor: hand;
+}
