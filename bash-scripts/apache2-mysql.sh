@@ -3,14 +3,13 @@
 if [ $(id -u) == 0 ]; then
         echo
         echo
-        echo '###########################'
-        echo '# Spring-API Setup Script #'
-        echo '###########################'
+        echo '################################'
+        echo '# Apache2 & MySQL Setup Script #'
+        echo '################################'
         echo
         echo 'This will download/install:'
-        echo ' - Java 8'
+        echo ' - Apache2'
         echo ' - MySQL Server'
-        echo ' - Spring Boot API Server'
         echo
         read -n1 -p "Do you wish to continue? (Press y|Y for Yes, any other key for No): " CONTINUE
         echo
@@ -34,10 +33,10 @@ if [ $MYSQL_PASS != $MYSQL_CONFIRM_PASS ]; then
         exit
 fi
 
-# Updates system and adds JRE8
+# Updates system and installs Apache2
 apt-get update -y
 apt-get upgrade -y
-sudo apt-get install openjdk-8-jre -y
+apt-get install apache2 -y
 
 
 # Installs and configures MySQL
@@ -51,14 +50,14 @@ expect -f - <<-CONF
         set timeout 1
         spawn mysql_secure_installation
 
-	expect "Enter password for user root: "
-	send "$MYSQL_PASS\r"
+        expect "Enter password for user root: "
+        send "$MYSQL_PASS\r"
 
         expect "Press y|Y for Yes, any other key for No: "
         send "n\r"
 
-	expect "Change the password for root ? ((Press y|Y for Yes, any other key for No) : "
-	send "n\r"
+        expect "Change the password for root ? ((Press y|Y for Yes, any other key for No) : "
+        send "n\r"
 
         expect "Remove anonymous users? (Press y|Y for Yes, any other key for No) : "
         send "y\r"
@@ -75,7 +74,6 @@ expect -f - <<-CONF
         expect eof
 CONF
 
-
 # Creates user table for the api
 mysql -uroot -p"$MYSQL_PASS" <<-QUERY
         DROP DATABASE IF EXISTS spring_api;
@@ -89,29 +87,7 @@ mysql -uroot -p"$MYSQL_PASS" <<-QUERY
         );
 QUERY
 
-# Downloads the Spring API server and its properties
-wget -P /var/www/spring-api/ "https://archive.libane.tk/spring-api/server.jar"
-wget -P /var/www/spring-api/ "https://archive.libane.tk/spring-api/application.properties"
-
-# Checks if the file was downloaded and edits the MySQL password in properties
-if [ -f "/var/www/spring-api/server.jar" ] && [ -f "/var/www/spring-api/application.properties" ]; then
-        sed -i "s/%MYSQL_PASS%/${MYSQL_PASS}/g" /var/www/spring-api/application.properties
-else
-        echo "Couldn't download files."
-        exit
-fi
-
-ufw allow 8080
-
 # Installation finished
 echo
-echo "Installation succeeded!"
-echo "You can run the server by "
-echo "executing 'java -Dspring.config.location=/var/www/spring-api/application.properties -jar /var/www/spring-api/server.jar'"
-echo "By default, it uses port 8080."
+echo "Installation success!"
 echo
-echo "If you want to be able to use the terminal while running the server,"
-echo "run it on a new session using the 'screen' command."
-echo
-
-#java -Dspring.config.location=/var/www/spring-api/application.properties -jar /var/www/spring-api/server.jar
