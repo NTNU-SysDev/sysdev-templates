@@ -1,0 +1,51 @@
+{
+	"info": {
+		"_postman_id": "e4514d79-13c1-485b-95b6-c55becb587e1",
+		"name": "Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Hello",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b3432718-00eb-4d5b-9b73-c4d2e30ef3ec",
+						"exec": [
+							"pm.test(\"Hello is present\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Hello\");",
+							"});",
+							"",
+							"pm.test(\"World is present\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"world\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/hello",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hello"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
