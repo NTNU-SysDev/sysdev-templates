@@ -55,10 +55,16 @@
 					"script": {
 						"id": "1efac135-72d0-4e27-9407-cb2d3c145d51",
 						"exec": [
-							"pm.test(\"No books present\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"No books\");",
-							"});",
-							""
+							"pm.test(\"Parse JSON response\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.length).to.eql(4);",
+							"    pm.expect(jsonData[0].author).to.eql(\"J K Rowling\");",
+							"    pm.expect(jsonData[1].author).to.eql(\"J K Rowling\");",
+							"    pm.expect(jsonData[2].author).to.eql(\"J K Rowling\");",
+							"    pm.expect(jsonData[3].author).to.eql(\"J K Rowling\");",
+							"    pm.expect(jsonData[0].title).to.eql(\"Harry Potter 1\");",
+							"    pm.expect(jsonData[3].title).to.eql(\"Harry Potter 4\");",
+							"});"
 						],
 						"type": "text/javascript"
 					}
