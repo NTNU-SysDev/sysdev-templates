@@ -13,8 +13,8 @@
 					"script": {
 						"id": "b3432718-00eb-4d5b-9b73-c4d2e30ef3ec",
 						"exec": [
-							"pm.test(\"Hello is present\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Hello\");",
+							"pm.test(\"Welcome is present\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Welcome\");",
 							"});",
 							"",
 							"pm.test(\"World is present\", function () {",
@@ -42,6 +42,45 @@
 					"port": "8080",
 					"path": [
 						"hello"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List books",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1efac135-72d0-4e27-9407-cb2d3c145d51",
+						"exec": [
+							"pm.test(\"No books present\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"No books\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/books/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"list"
 					]
 				}
 			},
