@@ -50,4 +50,14 @@ public class BookController {
             return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
         }
     }
+
+    @RequestMapping(value = "/books/update/{bookId}", method = RequestMethod.POST)
+    public ResponseEntity<String> updateBook(@PathVariable int bookId, @RequestBody Book book) {
+        String error = bookRepository.update(bookId, book);
+        if (error == null) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        }
+    }
 }

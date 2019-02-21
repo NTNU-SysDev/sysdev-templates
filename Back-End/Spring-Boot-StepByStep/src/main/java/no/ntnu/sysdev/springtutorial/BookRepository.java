@@ -37,7 +37,7 @@ public class BookRepository {
      * Add a book to the database
      *
      * @param book
-     * @return Return Error message. Null on success.
+     * @return null on success, error message otherwise
      */
     public String add(Book book) {
         String query = "INSERT INTO books (id, author, title) VALUES (?, ?, ?)";
@@ -59,7 +59,7 @@ public class BookRepository {
      * Delete a single book from the SQL database, return error message.
      *
      * @param bookId ID of the book to delete
-     * @return Error message, null if all was ok.
+     * @return null on success, error message otherwise
      */
     public String delete(int bookId) {
         String query = "DELETE FROM books WHERE id = ?";
@@ -68,6 +68,26 @@ public class BookRepository {
             return null;
         } else {
             return "Book with this ID does not exists";
+        }
+    }
+
+    /**
+     * Update a book in the database.
+     * @param bookId ID for the book to update
+     * @param book New attribute values for the book
+     * @return null on success, error message otherwise
+     */
+    public String update(int bookId, Book book) {
+        String query = "UPDATE books SET author = ?, title = ? WHERE id = ?";
+        try {
+            int numRows = jdbcTemplate.update(query, book.getAuthor(), book.getTitle(), bookId);
+            if (numRows == 1) {
+                return null;
+            } else {
+                return "Book with this ID does not exists";
+            }
+        } catch (Exception e) {
+            return "Error in the database";
         }
     }
 }
