@@ -21,4 +21,13 @@ public class BookRepository {
     public List<Book> findAll() {
         return jdbcTemplate.query("SELECT * FROM books", rowMapper);
     }
+
+    /**
+     * Delete all the books in the database.
+     * @return true when some books were deleted, false if there were no books to delete.
+     */
+    public boolean clear() {
+        int numRows = jdbcTemplate.update("DELETE FROM books");
+        return numRows > 0;
+    }
 }

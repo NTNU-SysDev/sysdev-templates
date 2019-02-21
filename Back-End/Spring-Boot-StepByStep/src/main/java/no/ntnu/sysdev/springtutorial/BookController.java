@@ -1,7 +1,10 @@
 package no.ntnu.sysdev.springtutorial;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -18,5 +21,15 @@ public class BookController {
     @RequestMapping("/books/list")
     public List<Book> listBooks() {
         return bookRepository.findAll();
+    }
+
+    @RequestMapping(value = "/books/clear", method = RequestMethod.DELETE)
+    public ResponseEntity<String> clearBooks() {
+        boolean deleted = bookRepository.clear();
+        if (deleted) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }
