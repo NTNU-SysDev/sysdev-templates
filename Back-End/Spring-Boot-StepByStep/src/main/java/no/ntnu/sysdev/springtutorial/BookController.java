@@ -1,20 +1,22 @@
 package no.ntnu.sysdev.springtutorial;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class BookController {
+    private final BookRepository bookRepository;
+
+    @Autowired
+    public BookController(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
+
     @RequestMapping("/books/list")
     public List<Book> listBooks() {
-        List<Book> books = new ArrayList<>();
-        books.add(new Book("J K Rowling", "Harry Potter 1"));
-        books.add(new Book("J K Rowling", "Harry Potter 2"));
-        books.add(new Book("J K Rowling", "Harry Potter 3"));
-        books.add(new Book("J K Rowling", "Harry Potter 4"));
-        return books;
+        return bookRepository.findAll();
     }
 }

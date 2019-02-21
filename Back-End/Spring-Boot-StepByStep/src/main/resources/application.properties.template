@@ -1,0 +1,5 @@
+# Take a copy of this file, save it as application.properties in the same folder
+# Set the correct values for your setup
+spring.datasource.url=jdbc:mysql://localhost:3306/books
+spring.datasource.username=your_db_user
+spring.datasource.password=your_password
