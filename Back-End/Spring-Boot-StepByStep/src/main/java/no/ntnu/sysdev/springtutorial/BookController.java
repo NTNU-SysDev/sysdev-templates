@@ -31,6 +31,16 @@ public class BookController {
         }
     }
 
+    @RequestMapping(value = "/books/delete/{bookId}", method = RequestMethod.DELETE)
+    public ResponseEntity<String> deleteBook(@PathVariable int bookId) {
+        String error = bookRepository.delete(bookId);
+        if (error == null) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @RequestMapping(value = "/books/add", method = RequestMethod.PUT)
     public ResponseEntity<String> addBook(@RequestBody Book book) {
         String error = bookRepository.add(book);
