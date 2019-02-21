@@ -23,3 +23,5 @@
 hs_err_pid*
 Front-End/react-demo-app/.env.development
 Front-End/react-demo-app/.idea/
+Back-End/Spring-Boot-StepByStep/.idea/
+Back-End/Spring-Boot-StepByStep/src/main/resources/application.properties

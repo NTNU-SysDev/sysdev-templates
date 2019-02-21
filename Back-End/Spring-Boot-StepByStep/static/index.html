@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Frontend app</title>
+    <style type="text/css">
+        table {
+            border: 1px solid gray;
+            border-bottom: 0;
+            width: 450px;
+        }
+
+        td {
+            border-bottom: 1px solid gray;
+            width: 150px;
+        }
+
+        label {
+            display: block;
+        }
+
+        form {
+            margin-top: 50px;
+            border: 1px solid gray;
+            padding: 20px;
+            width: 450px;
+            box-sizing: border-box;
+        }
+
+        input {
+            margin-bottom: 20px;
+        }
+        #add-book-btn {
+            display: block;
+            margin-bottom: 0px;
+        }
+        #error-msg {
+            color: red;
+        }
+    </style>
+    <script type="application/javascript" src="script.js"></script>
+</head>
+
+<body onload="loadBooks()">
+
+<table cellpadding="5" cellspacing="0" id="data-table">
+    <tr>
+        <td>ID</td>
+        <td>Author</td>
+        <td>Title</td>
+    </tr>
+</table>
+
+<form>
+    <h2>Add book</h2>
+
+    <label>ID:</label>
+    <input type="text" id="id-field"/>
+
+    <label>Author:</label>
+    <input type="text" id="author-field"/>
+
+    <label>Title:</label>
+    <input type="text" id="title-field"/>
+
+    <p id="error-msg"></p>
+    <input type="button" value="Add" id="add-book-btn" onclick="addBook()" />
+
+</form>
+
+</body>
+</html>
