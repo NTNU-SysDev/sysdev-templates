@@ -6,64 +6,58 @@
 	},
 	"item": [
 		{
-			"name": "Hello",
+			"name": "Delete all books",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "b3432718-00eb-4d5b-9b73-c4d2e30ef3ec",
+						"id": "0933848d-f800-4cb9-90ba-3733b8b1edf0",
 						"exec": [
-							"pm.test(\"Welcome is present\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"Welcome\");",
-							"});",
-							"",
-							"pm.test(\"World is present\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"world\");",
-							"});",
-							""
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
 						],
 						"type": "text/javascript"
 					}
 				}
 			],
 			"request": {
-				"method": "GET",
+				"method": "DELETE",
 				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/hello",
+					"raw": "http://localhost:8080/books/clear",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"hello"
+						"books",
+						"clear"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "List books",
+			"name": "Select empty book list",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "1efac135-72d0-4e27-9407-cb2d3c145d51",
+						"id": "38b60728-cd28-41e2-ab8f-7c746936e498",
 						"exec": [
-							"pm.test(\"Parse JSON response\", function () {",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Empty JSON array\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.length).to.eql(4);",
-							"    pm.expect(jsonData[0].author).to.eql(\"J K Rowling\");",
-							"    pm.expect(jsonData[1].author).to.eql(\"J K Rowling\");",
-							"    pm.expect(jsonData[2].author).to.eql(\"J K Rowling\");",
-							"    pm.expect(jsonData[3].author).to.eql(\"J K Rowling\");",
-							"    pm.expect(jsonData[0].title).to.eql(\"Harry Potter 1\");",
-							"    pm.expect(jsonData[3].title).to.eql(\"Harry Potter 4\");",
+							"    pm.expect(jsonData.length).to.eql(0);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -87,6 +81,348 @@
 					"path": [
 						"books",
 						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8b01e270-a22a-41de-9f09-51592c1b27ab",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"author\": \"David Eagleman\", \"title\": \"Incognito\"}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/books/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List single book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1efac135-72d0-4e27-9407-cb2d3c145d51",
+						"exec": [
+							"pm.test(\"Parse JSON response\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.length).to.eql(1);",
+							"    pm.expect(jsonData[0].author).to.eql(\"David Eagleman\");",
+							"    pm.expect(jsonData[0].title).to.eql(\"Incognito\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/books/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add second book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8b01e270-a22a-41de-9f09-51592c1b27ab",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"author\": \"J K Rowling\", \"title\": \"Harry Potter and the Spring Boot Tutorial\"}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/books/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List two books",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1efac135-72d0-4e27-9407-cb2d3c145d51",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"// The books will be sorted by title alphabetically",
+							"pm.test(\"Parse JSON response\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.length).to.eql(2);",
+							"    pm.expect(jsonData[0].author).to.eql(\"J K Rowling\");",
+							"    pm.expect(jsonData[0].title).to.eql(\"Harry Potter and the Spring Boot Tutorial\");",
+							"    pm.expect(jsonData[1].author).to.eql(\"David Eagleman\");",
+							"    pm.expect(jsonData[1].title).to.eql(\"Incognito\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/books/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete all books",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0933848d-f800-4cb9-90ba-3733b8b1edf0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/books/clear",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"clear"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Select empty book list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "38b60728-cd28-41e2-ab8f-7c746936e498",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Empty JSON array\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.length).to.eql(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/books/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fail to delete all",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0933848d-f800-4cb9-90ba-3733b8b1edf0",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/books/clear",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"clear"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8b01e270-a22a-41de-9f09-51592c1b27ab",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"author\": \"David Eagleman\", \"title\": \"Incognito\"}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/books/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"add"
 					]
 				}
 			},
