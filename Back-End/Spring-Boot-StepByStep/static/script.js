@@ -18,7 +18,8 @@ function loadBooks() {
 function showBook(book) {
     var table = document.getElementById("data-table");
     var row = document.createElement("tr");
-    appendCell(book.id, row);
+    var idCellContent = book.id + " <input type='button' value='-' title='Delete' onclick='deleteBook(" + book.id + ")' />";
+    appendCell(idCellContent, row);
     appendCell(book.author, row);
     appendCell(book.title, row);
 
@@ -28,7 +29,7 @@ function showBook(book) {
 // Adds one cell to the data table
 function appendCell(val, row) {
     var cell = document.createElement("td");
-    cell.innerText = val;
+    cell.innerHTML = val;
     row.appendChild(cell);
 }
 
@@ -45,6 +46,25 @@ function addBook() {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(book)
+    }).then(function (response) {
+        console.log("Response: ", response);
+        if (response.status === 200) {
+            window.location.reload();
+        } else {
+            return response.text();
+        }
+    }).then(function (errorMessage) {
+        var errorParagraph = document.getElementById("error-msg");
+        errorParagraph.innerText = errorMessage;
+    });
+}
+
+// Send a HTTP DELETE request to backend: /books/delete
+function deleteBook(bookId) {
+    console.log("Deleting book ", bookId);
+
+    fetch("/books/delete/" + bookId, {
+        method: "DELETE"
     }).then(function (response) {
         console.log("Response: ", response);
         if (response.status === 200) {
