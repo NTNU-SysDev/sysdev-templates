@@ -114,7 +114,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"author\": \"David Eagleman\", \"title\": \"Incognito\"}"
+					"raw": "{\"id\": \"1\", \"author\": \"David Eagleman\", \"title\": \"Incognito\"}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/books/add",
@@ -200,7 +200,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"author\": \"J K Rowling\", \"title\": \"Harry Potter and the Spring Boot Tutorial\"}"
+					"raw": "{\"id\": \"2\", \"author\": \"J K Rowling\", \"title\": \"Harry Potter and the Spring Boot Tutorial\"}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/books/add",
@@ -218,6 +218,52 @@
 			"response": []
 		},
 		{
+			"name": "Update first book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8b01e270-a22a-41de-9f09-51592c1b27ab",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"author\": \"David  Eagleman\", \"title\": \"Incognito: the Secret Lives of the Brain\"}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/books/update/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"update",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "List two books",
 			"event": [
 				{
@@ -228,14 +274,139 @@
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
-							"// The books will be sorted by title alphabetically",
+							"// The books will be sorted by ID",
 							"pm.test(\"Parse JSON response\", function () {",
 							"    var jsonData = pm.response.json();",
 							"    pm.expect(jsonData.length).to.eql(2);",
-							"    pm.expect(jsonData[0].author).to.eql(\"J K Rowling\");",
-							"    pm.expect(jsonData[0].title).to.eql(\"Harry Potter and the Spring Boot Tutorial\");",
-							"    pm.expect(jsonData[1].author).to.eql(\"David Eagleman\");",
-							"    pm.expect(jsonData[1].title).to.eql(\"Incognito\");",
+							"    pm.expect(jsonData[0].author).to.eql(\"David  Eagleman\");",
+							"    pm.expect(jsonData[0].title).to.eql(\"Incognito: the Secret Lives of the Brain\");",
+							"    pm.expect(jsonData[0].id).to.eql(1);",
+							"    pm.expect(jsonData[1].author).to.eql(\"J K Rowling\");",
+							"    pm.expect(jsonData[1].title).to.eql(\"Harry Potter and the Spring Boot Tutorial\");",
+							"    pm.expect(jsonData[1].id).to.eql(2);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/books/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Try to delete non-existing book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "25a132ca-c158-47ea-a8da-9759d80f357b",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/books/delete/7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"delete",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete first book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cd81c878-5a7c-4710-9f3e-0b8b753c29e8",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/books/delete/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"books",
+						"delete",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List only second book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1efac135-72d0-4e27-9407-cb2d3c145d51",
+						"exec": [
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Parse JSON response\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.length).to.eql(1);",
+							"    pm.expect(jsonData[0].id).to.eql(2);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -411,7 +582,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"author\": \"David Eagleman\", \"title\": \"Incognito\"}"
+					"raw": "{\"id\": \"1\", \"author\": \"David Eagleman\", \"title\": \"Incognito\"}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/books/add",
