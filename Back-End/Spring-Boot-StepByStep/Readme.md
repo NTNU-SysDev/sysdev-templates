@@ -101,9 +101,8 @@ We implement the following steps:
 
 **Step 23**: Make the template display all the books in the database, in the form of a table
 
-**Step 24**: Add page with "Add user" form.
+**Step 24**: Add page with "Add book" form at `/app/add`.
 
-**Step 25**: Handle submitted "Add user" form - add new user in database and redirect to `/app`
-or show error message.  
+**Step 25**: Handle submitted "Add book" form - add new book in database and show success or error message.  
 
-**Step 26**: Make the same `/app` endpoint handle deletion of a book, show result message 
+**Step 26**: Challenge for you: make the same `/app` endpoint handle deletion of a book, show result message.
