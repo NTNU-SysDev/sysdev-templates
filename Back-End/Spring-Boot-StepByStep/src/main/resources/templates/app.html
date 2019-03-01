@@ -5,11 +5,16 @@
     <title>Web application</title>
 </head>
 <body>
-<p>First book: !</p>
-<ul>
-    <li>ID: [[${book.id}]]</li>
-    <li>Author: [[${book.author}]]</li>
-    <li>Title: [[${book.title}]]</li>
-</ul>
+<p>First book: </p>
+
+<span th:switch="${book}">
+    <p th:case="null">No books in the database!</p>
+    <ul th:case="*">
+        <li>ID: [[${book.id}]]</li>
+        <li>Author: [[${book.author}]]</li>
+        <li>Title: [[${book.title}]]</li>
+    </ul>
+</span>
+
 </body>
 </html>
