@@ -1,8 +1,14 @@
 package no.ntnu.sysdev.springtutorial;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class Book {
+    @NotNull
     private int id;
+    @NotBlank
     private String author;
+    @NotBlank
     private String title;
 
     public Book(int id, String author, String title) {
