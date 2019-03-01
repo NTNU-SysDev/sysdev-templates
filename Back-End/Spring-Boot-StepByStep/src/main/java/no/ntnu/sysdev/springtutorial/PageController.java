@@ -16,9 +16,7 @@ public class PageController {
 
     @RequestMapping(value = "/app")
     public String indexPage(Model model) {
-        Book firstBook = repository.getFirstBook();
-        firstBook = null; // Make the seleced book null, just for testing
-        model.addAttribute("book", firstBook);
+        model.addAttribute("books", repository.findAll());
         return "app";
     }
 }
