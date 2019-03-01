@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web application</title>
+    <style type="text/css">
+        table {
+            border: 1px solid gray;
+            border-bottom: 0;
+            width: 450px;
+        }
+
+        td {
+            border-bottom: 1px solid gray;
+            width: 150px;
+        }
+    </style>
+
+</head>
+<body>
+<p>First book: </p>
+
+<table>
+    <tr>
+        <td>ID</td>
+        <td>Author</td>
+        <td>Title</td>
+    </tr>
+    <!-- One row per book -->
+    <tr th:each="book: ${books}">
+        <td th:text="${book.id}">Book ID wil be here</td>
+        <td th:text="${book.author}">Author will be here</td>
+        <td th:text="${book.title}">Title will be her</td>
+    </tr>
+</table>
+
+<a href="/app/addBook">Add book</a>
+
+</body>
+</html>

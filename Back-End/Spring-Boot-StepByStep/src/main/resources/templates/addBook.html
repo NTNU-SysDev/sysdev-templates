@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web application</title>
+    <style type="text/css">
+        label {
+            display: block;
+        }
+
+        form {
+            margin-top: 50px;
+            border: 1px solid gray;
+            padding: 20px;
+            width: 450px;
+            box-sizing: border-box;
+        }
+
+        input {
+            margin-bottom: 20px;
+        }
+        #error-msg {
+            color: red;
+        }
+    </style>
+
+</head>
+<body>
+
+<form method="post" action="">
+    <h2>Add book</h2>
+
+    <label>ID:</label>
+    <input type="text" name="id"/>
+
+    <label>Author:</label>
+    <input type="text" name="author"/>
+
+    <label>Title:</label>
+    <input type="text" name="title"/>
+
+    <p id="error-msg" th:text="${errorMessage}"></p>
+    <input type="submit" value="Add" />
+
+</form>
+
+<a href="/app">Go back to book list</a>
+
+</body>
+</html>

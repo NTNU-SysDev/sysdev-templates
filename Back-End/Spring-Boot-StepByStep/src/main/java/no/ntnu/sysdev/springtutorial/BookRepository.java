@@ -90,4 +90,8 @@ public class BookRepository {
             return "Error in the database";
         }
     }
+
+    public Book getFirstBook() {
+        return jdbcTemplate.queryForObject("SELECT * FROM books LIMIT 1", rowMapper);
+    }
 }
