@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<!-- 
+An example showing how to use Redux store for storage of current UI state, how to dispatch the events and react on changes.
+Although React components are used here as the users of Redux store, Redux store is not dependend on React in any way. 
+One can use Redux to synchronize events (state) between different components.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TODO list with Redux</title>
+
+    <!-- React libraries -->
+    <script src="https://unpkg.com/react@15.3.2/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js"></script>
+
+    <!-- Babel translator - translates the JSX syntax to Javascript in real-time -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+
+    <!-- Redux -->
+    <script src="https://unpkg.com/redux@latest/dist/redux.js"></script>
+
+    <style type="text/css">
+        body {
+            padding: 50px;
+            background-color: #66CCFF;
+            font-family: sans-serif;
+        }
+
+        .todoListMain .header input {
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #FFF;
+        }
+
+        .todoListMain .header button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px;
+            background-color: #0066FF;
+            color: #FFF;
+            border: 2px solid #0066FF;
+        }
+
+        .todoListMain .header button:hover {
+            background-color: #003399;
+            border: 2px solid #003399;
+            cursor: pointer;
+        }
+
+        .todoListMain .theList {
+            list-style: none;
+            padding-left: 0;
+            width: 280px;
+        }
+
+        .todoListMain .theList li {
+            color: #333;
+            background-color: rgba(255, 255, 255, .5);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="main-content"></div>
+
+<script type="text/babel">
+
+    //////////////////////////////////////////////////////////////////
+    // React components
+    //////////////////////////////////////////////////////////////////
+
+    // In this solution: TodoItemList will listen for events and update the list of shown items accordingly
+    // Any component can trigger either addition or deletion of an item
+    // AddTodo will signal event of adding an item, Delete buttons will signal deletion of a specific component
+    // And "Clear" button will signal clearing of all items
+
+    const TodoItem = React.createClass({
+        render: function () {
+            const item = this.props.item;
+            return <li key={item.key}>{item.text}
+                <button onClick={this.removeItem}>Remove</button>
+            </li>
+        },
+        removeItem: function () {
+            // This function is called when "Remove" is clicked
+            // Update Redux state
+            reduxStore.dispatch(removeItem(this.props.item));
+        }
+    });
+
+    const TodoItemList = React.createClass({
+        getInitialState: function () {
+            return {items: []}; // No items when we start
+        },
+        componentDidMount: function () {
+            // Subscribe to Redux store state updates
+            console.log("Subscribing... Redux = ");
+            console.log(reduxStore);
+            reduxStore.subscribe(this.onReduxStateUpdated);
+        },
+        // This function will be called when Redux store state is updated
+        onReduxStateUpdated: function() {
+            // Update this component's state. It will force re-render
+            const reduxState = reduxStore.getState();
+            this.setState({items: reduxState});
+        },
+        render: function () {
+            const items = this.state.items;
+
+            // Create a TodoItem for each item in the current state;
+            var listItems = [];
+            for (var i = 0; i < items.length; ++i) {
+                const k = "item" + items[i].key;
+                listItems.push(<TodoItem key={k} item={items[i]}/>);
+            }
+
+            return (
+                <ul className="theList">
+                    {listItems}
+                </ul>
+            );
+        }
+    });
+
+
+    const AddTodo = React.createClass({
+        addItem: function (e) {
+            e.preventDefault(); // Do not submit the form
+            if (!this._input.value) return; // Empty value, don't do anything
+
+            const item = {
+                text: this._input.value,
+                key: Date.now() // Need to have a unique key. It will be needed, when we add a DOM element for it
+            };
+
+            this._input.value = ""; // Clear input field
+
+            // Notify Redux about the change
+            reduxStore.dispatch(addItem(item));
+        },
+        clearAll: function () {
+            // Notify Redux that all items must be removed
+            reduxStore.dispatch(clearItems());
+        },
+        render: function () {
+            return (
+                <div className="header">
+                    {/* We need to get reference to the input field, save it as this._input */}
+                    <input ref={(a) => this._input = a} placeholder="Enter task"/>
+                    <button onClick={this.addItem}>Add</button>
+                    <button onClick={this.clearAll}>Clear all items</button>
+                </div>
+            );
+        }
+    });
+
+    const TodoApp = React.createClass({
+        render: function () {
+            return (
+                <div className="todoListMain">
+                    <AddTodo/>
+                    <TodoItemList/>
+                </div>
+            );
+        }
+    });
+
+    ////////////////////////////////////////////////////////
+    // Redux world
+    ////////////////////////////////////////////////////////
+    // Redux actions
+    function addItem(item) {
+        console.log("addItem");
+        console.log(item);
+        return {
+            type: "ADD",
+            item: item
+        }
+    }
+
+    function removeItem(item) {
+        return {
+            type: "REMOVE",
+            item: item
+        }
+    }
+
+    function clearItems() {
+        return {
+            type: "CLEAR"
+        }
+    }
+
+    // Redux Reducer: updates the "store state" on each received action
+    function itemReducer(state = [], action) {
+        switch (action.type) {
+            case "ADD":
+                return state.concat(action.item);
+            case "REMOVE":
+                return state.filter(function (i) {
+                    // Remove item if the key is the same
+                    return i.key !== action.item.key;
+                });
+            case "CLEAR":
+                return [];
+            default:
+                return state;
+        }
+    }
+
+    // Create Redux store that will be used to maintain the application state (loaded data)
+    var reduxStore = Redux.createStore(itemReducer);
+
+    ReactDOM.render(
+        <TodoApp/>,
+        document.querySelector("#main-content")
+    );
+</script>
+
+</body>
+</html>
