@@ -50,7 +50,7 @@ the `author` column from a simple string column to a separate SQL table `author`
 ## Helpful commands
 To launch MySQL in a Docker container and mount directory C:\databases to the /var/lib/mysql directory in the container:
 
-    docker container run --publish 3306:3306 --name database -v //c/databases:/var/lib/mysql  -e MYSQL_USER=book_user -e MYSQL_PASSWORD=book_pass  mysql
+    docker container run --publish 3306:3306 --name database -v //c/databases:/var/lib/mysql  -e MYSQL_ROOT_PASSWORD=root  mysql
 
 To update DB to the latest version, run:
     
