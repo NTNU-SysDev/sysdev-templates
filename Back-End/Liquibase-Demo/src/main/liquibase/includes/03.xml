@@ -1,0 +1,19 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+                   xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+                   xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+    <changeSet id="003" author="Girts">
+        <sql>
+            CREATE TABLE library (
+                id INT(11) NOT NULL AUTO_INCREMENT,
+                name VARCHAR(100) NOT NULL,
+                PRIMARY KEY(id)
+            );
+
+            INSERT INTO library (name) VALUES
+                ("NTNU library Aalesund"),
+                ("NTNU library Gjovik"),
+                ("NTNU library Trondheim");
+        </sql>
+    </changeSet>
+</databaseChangeLog>
