@@ -47,4 +47,24 @@ the `author` column from a simple string column to a separate SQL table `author`
 * Update the `book` entries: set their `author_id` column.
 * Drop the `book.author` column. 
 
+## Helpful commands
+To launch MySQL in a Docker container and mount directory C:\databases to the /var/lib/mysql directory in the container:
+
+    docker container run --publish 3306:3306 --name database -v //c/databases:/var/lib/mysql  -e MYSQL_USER=book_user -e MYSQL_PASSWORD=book_pass  mysql
+
+To update DB to the latest version, run:
+    
+    mvn liquibase:update
+
+To build Docker image for the Spring Boot project:
+    
+    docker build . -t lbdemo:1.0    
+	
+To run the Liquibase demo app in a container linked to the mysql and mount `<project-root>/target` on the host machine to `/app` in the container (Note: don't include the `<>` in the command, but do include the `:`):
+	
+	docker run -p 8080:8080 --name lbdemo --link database -it --rm -v <full-path-to-target-dir>:/app  lbdemo:1.0
+
+To do the same but run the container in interactive mode (link the shell window to it's output) and remove the container once you close it, use the `-d` argument instead of `-it --rm`:
+
+	docker run -p 8080:8080 --name lbdemo --link database -d -v <full-path-to-target-dir>:/app  lbdemo:1.0
 
