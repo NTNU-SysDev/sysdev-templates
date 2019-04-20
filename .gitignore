@@ -27,3 +27,5 @@ Back-End/Spring-Boot-StepByStep/.idea/
 Back-End/Spring-Boot-StepByStep/src/main/resources/application.properties
 
 Back-End/Liquibase-Demo/\.idea/
+
+Back-End/Liquibase-Demo/src/main/resources/application\.properties
