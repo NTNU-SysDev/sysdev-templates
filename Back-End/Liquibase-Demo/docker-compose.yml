@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  database:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=carrot78
+      - MYSQL_DATABASE=books
+      - MYSQL_USER=books
+      - MYSQL_PASSWORD=books
+    ports:
+      - 33065:3306
+
+  app:
+    build: .
+    ports:
+      - 8000:8080
+    depends_on:
+      - database

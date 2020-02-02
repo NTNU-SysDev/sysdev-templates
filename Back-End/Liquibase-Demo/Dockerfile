@@ -4,8 +4,7 @@ FROM openjdk:8
 RUN mkdir /app
 WORKDIR /app
 
-# We will mount our target directory there
-VOLUME /app
+COPY target/lbdemo.jar /app
 
 # Expose Spring boot port 8080 to "the outside world"
 EXPOSE 8080

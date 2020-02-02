@@ -65,9 +65,9 @@
 						${basedir}/src/main/liquibase/master.xml
 					</changeLogFile>
 					<driver>com.mysql.jdbc.Driver</driver>
-					<url>jdbc:mysql://localhost:3306/books</url>
-					<username>root</username>
-					<password>root</password>
+					<url>jdbc:mysql://localhost:33065/books</url>
+					<username>books</username>
+					<password>books</password>
 				</configuration>
 			</plugin>
 		</plugins>
